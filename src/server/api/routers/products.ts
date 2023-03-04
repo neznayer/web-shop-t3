@@ -36,7 +36,4 @@ export const productrRouter = createTRPCRouter({
         data: input.data,
       });
     }),
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
 });
