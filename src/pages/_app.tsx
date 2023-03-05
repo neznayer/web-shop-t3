@@ -3,6 +3,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
 import { api } from "~/utils/api";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import "~/styles/globals.css";
 

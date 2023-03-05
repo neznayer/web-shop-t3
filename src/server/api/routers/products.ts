@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 const UpdateProductModel = z.object({
@@ -22,6 +23,17 @@ export const productrRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) => {
       return ctx.prisma.product.findFirst({ where: { id: input.id } });
+    }),
+  deleteById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      if (ctx.session.user.role !== "admin")
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Only admins can delete the product",
+        });
+
+      return ctx.prisma.product.delete({ where: { id: input.id } });
     }),
 
   updateById: protectedProcedure
